@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Template Planner — BMW Motorrad Vertriebsplanung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="mark">
+    <span class="mark-rule"></span>
+    <span class="mark-txt">BMW Motorrad · Vertriebsplanung</span>
+  </div>
+  <h1>Template&nbsp;Planner</h1>
+  <p class="deck">
+    Entscheidungswerkzeug für die Sortimentsplanung. Basis: 44.658 historische
+    Bestellungen, 48 Modelle, 18 Märkte.
+  </p>
+  <div class="mock-flag">Mock-up · Aufgabe D · Gruppe 201</div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab is-active" data-view="portfolio" role="tab">01 &nbsp;Portfolio</button>
+  <button class="tab" data-view="modell" role="tab">02 &nbsp;Modell-Detail</button>
+  <button class="tab" data-view="markt" role="tab">03 &nbsp;Märkte</button>
+  <button class="tab" data-view="prozess" role="tab">04 &nbsp;Planungsprozess</button>
+</nav>
+
+<main>
+
+<!-- ============ 01 PORTFOLIO ============ -->
+<section class="view is-active" id="view-portfolio">
+
+  <div class="lede">
+    <h2>Wie viele Templates soll BMW Motorrad anbieten?</h2>
+    <p>
+      Jedes Template deckt Nachfrage ab, kostet aber Planungs- und
+      Produktionskomplexität. Verschieben Sie den Regler, um den Zielkonflikt
+      zu sehen.
+    </p>
+  </div>
+
+  <!-- SIGNATURE: die Entscheidung selbst -->
+  <div class="console">
+    <div class="console-dial">
+      <label for="slider">Templates im Portfolio</label>
+      <output id="slider-out">100</output>
+      <input type="range" id="slider" min="10" max="400" value="100" step="5">
+      <div class="scale"><span>10</span><span>200</span><span>400</span></div>
+    </div>
+
+    <div class="console-readout">
+      <div class="metric metric-lead">
+        <span class="metric-label">Abgedeckte Nachfrage</span>
+        <span class="metric-val" id="m-cov">74&thinsp;%</span>
+        <span class="metric-sub" id="m-cov-sub">32.892 von 44.658 Bestellungen</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Variantenreduktion</span>
+        <span class="metric-val" id="m-red">99,3&thinsp;%</span>
+        <span class="metric-sub">ggü. 14.064 Ist-Konfigurationen</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Grenznutzen</span>
+        <span class="metric-val" id="m-marg">+0,3&thinsp;%</span>
+        <span class="metric-sub">pro zusätzlichem Template</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <svg id="curve" viewBox="0 0 900 380" role="img"
+         aria-label="Abdeckungskurve: Nachfrageabdeckung nach Anzahl Templates"></svg>
+    <p class="caption">
+      Sättigungskurve. Ein Fahrzeug gilt als abgedeckt, wenn es um höchstens
+      vier Optionen von einem Template abweicht. Greedy-Set-Cover je Modell.
+    </p>
+  </div>
+
+  <div class="verdict" id="verdict">
+    <span class="verdict-tag">Empfehlung</span>
+    <p id="verdict-txt"></p>
+  </div>
+
+</section>
+
+<!-- ============ 02 MODELL ============ -->
+<section class="view" id="view-modell">
+
+  <div class="lede">
+    <h2>Warum wird ein Template vorgeschlagen?</h2>
+    <p>
+      Jeder Vorschlag ist auf Bestelldaten zurückführbar. Kohäsion misst: Von
+      allen Kunden, die mindestens eine Option des Blocks wählen — wie viele
+      wählen <em>alle</em>?
+    </p>
+  </div>
+
+  <div class="model-head">
+    <div class="model-pick">
+      <label for="model-select">Modell</label>
+      <select id="model-select"></select>
+    </div>
+    <div class="model-stats" id="model-stats"></div>
+  </div>
+
+  <div id="model-generic" class="hint" hidden>
+    <p>
+      Für dieses Modell liegt die Template-Ableitung vor, die Options-Blöcke
+      sind aber noch nicht qualitativ benannt. Die S&nbsp;1000&nbsp;R zeigt das
+      Verfahren im Detail.
+    </p>
+  </div>
+
+  <div id="model-detail">
+
+    <div class="funnel">
+      <div class="funnel-step"><b>70</b><span>Optionen im Katalog</span></div>
+      <div class="funnel-arrow">→</div>
+      <div class="funnel-step"><b>−7</b><span>faktisch Serie (&gt;95&nbsp;%)</span></div>
+      <div class="funnel-arrow">→</div>
+      <div class="funnel-step"><b>−40</b><span>Pakete &amp; Exoten (&lt;5&nbsp;%)</span></div>
+      <div class="funnel-arrow">→</div>
+      <div class="funnel-step is-out"><b>23</b><span>echte Kundenentscheidungen</span></div>
+    </div>
+
+    <div class="cards" id="template-cards"></div>
+
+  </div>
+
+</section>
+
+<!-- ============ 03 MÄRKTE ============ -->
+<section class="view" id="view-markt">
+
+  <div class="lede">
+    <h2>Wo greift welches Template?</h2>
+    <p>
+      Templates werden je Markt unterschiedlich nachgefragt. Externe Faktoren
+      (Topografie, Einkommen, Klima) erklären einen Teil dieser Unterschiede
+      und sind hier andockbar.
+    </p>
+  </div>
+
+  <div class="markets" id="markets"></div>
+
+  <div class="ext-slot">
+    <span class="ext-tag">Externe Daten</span>
+    <p>
+      Schnittstelle vorgesehen für: Höhenprofil, Straßendichte, Kaufkraft,
+      Regentage, touristische Infrastruktur. Verknüpfung über Market&nbsp;ID.
+      <em>Noch nicht befüllt.</em>
+    </p>
+  </div>
+
+</section>
+
+<!-- ============ 04 PROZESS ============ -->
+<section class="view" id="view-prozess">
+
+  <div class="lede">
+    <h2>Wie kommt das in die laufende Planung?</h2>
+    <p>Templates sind kein einmaliges Ergebnis, sondern ein Zyklus.</p>
+  </div>
+
+  <ol class="cycle">
+    <li>
+      <span class="cycle-when">Quartalsweise</span>
+      <h3>Abdeckung prüfen</h3>
+      <p>
+        Sinkt die Abdeckung eines Templates unter den Schwellwert, weicht die
+        Nachfrage ab. Das Dashboard meldet es, bevor die Lagerreichweite kippt.
+      </p>
+      <span class="cycle-who">Sortimentsplanung</span>
+    </li>
+    <li>
+      <span class="cycle-when">Halbjährlich</span>
+      <h3>Templates nachschärfen</h3>
+      <p>
+        Optionen, die auf über 95&nbsp;% Support laufen, wandern in die Serie.
+        Optionen unter 5&nbsp;% werden zur Streichung vorgeschlagen.
+      </p>
+      <span class="cycle-who">Sortiment · Produktmanagement</span>
+    </li>
+    <li>
+      <span class="cycle-when">Alle 3 Jahre / bei Modellwechsel</span>
+      <h3>Neu ableiten</h3>
+      <p>
+        Vollständiger Neulauf der Assoziations- und Cover-Analyse auf den
+        Bestelldaten des abgelaufenen Zyklus.
+      </p>
+      <span class="cycle-who">Vertriebsplanung · Analytics</span>
+    </li>
+  </ol>
+
+  <div class="users">
+    <h3>Wer arbeitet mit dem Tool?</h3>
+    <table>
+      <thead>
+        <tr><th>Nutzergruppe</th><th>Frage, die beantwortet wird</th><th>Ansicht</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sortimentsplanung</td><td>Wie viele Templates biete ich an?</td><td>01</td></tr>
+        <tr><td>Produktmanagement</td><td>Welche Optionen gehören ins Template — und warum?</td><td>02</td></tr>
+        <tr><td>Marktverantwortliche</td><td>Passt das Angebot zu meinem Markt?</td><td>03</td></tr>
+        <tr><td>Logistik &amp; Produktion</td><td>Wie viele Varianten muss ich einplanen?</td><td>01</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  <p>
+    Supply Chain Analytics · SoSe 2026 · TU Berlin, Fachgebiet Logistik ·
+    Gruppe 201 — Mock-up zu Aufgabe D. Kennzahlen aus
+    <code>SCA_SS26_Gruppe201_CaseStudy_Templates.Rmd</code>.
+  </p>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
