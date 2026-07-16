@@ -542,3 +542,108 @@ footer code{ font-family:var(--mono); font-size:11.5px; }
   *{ animation:none !important; transition:none !important; }
   html{ scroll-behavior:auto; }
 }
+
+/* ---------- Externe Faktoren (Ansicht 02) ---------- */
+
+.ext-panel{
+  border:1px solid var(--ink);
+  background:#fff;
+  margin-bottom:40px;
+}
+.ext-head{
+  padding:20px 24px 16px;
+  border-bottom:1px solid var(--rule);
+}
+.ext-head h3{
+  font-family:var(--disp); font-weight:600; font-size:18px;
+  letter-spacing:-.01em; margin:0 0 6px;
+}
+.ext-head p{
+  margin:0; font-size:13px; color:var(--ink-soft); max-width:66ch;
+}
+.ext-head b{ color:var(--ink); }
+
+.ext-bars{ padding:18px 24px 22px; }
+
+.xrow{
+  display:grid;
+  grid-template-columns:150px 1fr 62px;
+  align-items:center;
+  gap:14px;
+  padding:7px 0;
+}
+.xrow-name{
+  font-size:13px;
+}
+/* Nullachse in der Mitte, Balken laufen nach links (negativ) oder rechts */
+.xtrack{
+  position:relative;
+  height:16px;
+  background:linear-gradient(90deg,
+    transparent 0 calc(50% - .5px),
+    var(--rule) calc(50% - .5px) calc(50% + .5px),
+    transparent calc(50% + .5px) 100%);
+}
+.xbar{
+  position:absolute; top:3px; height:10px;
+}
+.xbar.pos{ left:50%; background:var(--blue); }
+.xbar.neg{ right:50%; background:var(--red); }
+.xval{
+  font-family:var(--mono); font-size:12px; font-weight:600;
+  font-variant-numeric:tabular-nums; text-align:right;
+}
+.xval.pos{ color:var(--blue); }
+.xval.neg{ color:var(--red); }
+
+.xscale{
+  display:grid; grid-template-columns:150px 1fr 62px; gap:14px;
+  font-family:var(--mono); font-size:10px; color:var(--ink-soft);
+  padding-top:6px; margin-top:4px;
+  border-top:1px solid var(--rule-hair);
+}
+.xscale-inner{ display:flex; justify-content:space-between; }
+
+.ext-none{
+  padding:18px 24px; font-size:13px; color:var(--ink-soft); margin:0;
+}
+
+/* Korrelations-Chip auf den Template-Karten */
+.opt-ext{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px dashed var(--rule);
+  font-size:12px; color:var(--ink-soft);
+}
+.opt-ext b{
+  font-family:var(--mono); font-weight:600; color:var(--ink);
+}
+
+/* ---------- Markt-Screen: Externals ---------- */
+
+.ext-legend{
+  border:1px solid var(--rule);
+  background:#fff;
+  padding:20px 24px;
+  display:flex; gap:18px; align-items:flex-start;
+  margin-bottom:16px;
+}
+.ext-legend p{ margin:0; font-size:13.5px; color:var(--ink-soft); }
+
+.ext-check{
+  border-left:3px solid var(--green);
+  background:#EDF6F1;
+  padding:18px 22px;
+  display:flex; gap:18px; align-items:flex-start;
+}
+.ext-check-tag{
+  font-family:var(--mono); font-size:10.5px;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green); white-space:nowrap; padding-top:2px;
+}
+.ext-check p{ margin:0; font-size:13.5px; }
+
+@media (max-width:900px){
+  .xrow, .xscale{ grid-template-columns:110px 1fr 52px; gap:8px; }
+  .xrow-name{ font-size:12px; }
+}

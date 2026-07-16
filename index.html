@@ -109,6 +109,19 @@
     <div class="model-stats" id="model-stats"></div>
   </div>
 
+
+  <div class="ext-panel" id="ext-panel">
+    <div class="ext-head">
+      <h3>Welche Ländermerkmale erklären die Nachfrage?</h3>
+      <p>
+        Korrelation des Marktanteils dieses Modells mit Ländermerkmalen,
+        über 17 Märkte. Werte über&nbsp;|0,7| gelten als starker Zusammenhang.
+        <b>Zusammenhang, keine Kausalität.</b>
+      </p>
+    </div>
+    <div class="ext-bars" id="ext-bars"></div>
+  </div>
+
   <div id="model-generic" class="hint" hidden>
     <p>
       Für dieses Modell liegt die Template-Ableitung vor, die Options-Blöcke
@@ -149,12 +162,23 @@
 
   <div class="markets" id="markets"></div>
 
-  <div class="ext-slot">
-    <span class="ext-tag">Externe Daten</span>
+  <div class="ext-legend">
+    <span class="ext-tag">Externe Daten · angebunden</span>
     <p>
-      Schnittstelle vorgesehen für: Höhenprofil, Straßendichte, Kaufkraft,
-      Regentage, touristische Infrastruktur. Verknüpfung über Market&nbsp;ID.
-      <em>Noch nicht befüllt.</em>
+      13 Ländermerkmale je Markt: Ø-Temperatur, Niederschlag, Sonnenstunden,
+      Topografie, Straßenqualität, Straßennetz, Stauaufkommen, BIP pro Kopf,
+      Bevölkerung, Bevölkerungsdichte, Demografie, Pkw- und Motorrad-Bestand.
+      Verknüpfung über die Market&nbsp;ID. Die Korrelationen erscheinen je Modell
+      in Ansicht&nbsp;02.
+    </p>
+  </div>
+
+  <div class="ext-check">
+    <span class="ext-check-tag">Plausibilitätsprüfung</span>
+    <p>
+      <b>Sitzheizung × Ø-Temperatur = −0,80.</b> Sitzheizung wird in kalten
+      Märkten bestellt. Dass die Methodik diesen offensichtlichen Zusammenhang
+      findet, spricht dafür, dass auch die weniger offensichtlichen belastbar sind.
     </p>
   </div>
 
@@ -226,6 +250,7 @@
 </footer>
 
 <script src="data.js"></script>
+<script src="externals.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

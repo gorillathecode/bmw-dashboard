@@ -153,6 +153,57 @@ const slider = document.getElementById('slider');
 slider.addEventListener('input', e => update(+e.target.value));
 update(+slider.value);
 
+/* ---------------- Externe Faktoren je Modell ---------------- */
+
+const cf = c =>
+  (c > 0 ? '+' : '\u2212') +
+  new Intl.NumberFormat('de-DE', {
+    minimumFractionDigits: 2, maximumFractionDigits: 2
+  }).format(Math.abs(c));
+
+function renderExternals(name) {
+  const rows = EXT.models[name];
+  const box = document.getElementById('ext-bars');
+
+  if (!rows || !rows.length) {
+    box.innerHTML = `<p class="ext-none">
+      Dieses Modell kommt in weniger als 10 Märkten vor. Eine Korrelation mit
+      Ländermerkmalen wäre hier nicht belastbar &mdash; sie würde im Wesentlichen
+      abbilden, in welchem einzelnen Markt das Modell verkauft wird.
+      ${EXT.excluded_models} von 52 Modellen sind aus diesem Grund ausgeschlossen.
+    </p>`;
+    return;
+  }
+
+  box.innerHTML = rows.map(r => {
+    const pct = Math.abs(r.c) * 50;          // 50 % = volle Halbbreite
+    const sign = r.c >= 0 ? 'pos' : 'neg';
+    return `<div class="xrow">
+      <span class="xrow-name">${r.f}</span>
+      <span class="xtrack">
+        <span class="xbar ${sign}" style="width:${pct}%"></span>
+      </span>
+      <span class="xval ${sign}">${cf(r.c)}</span>
+    </div>`;
+  }).join('') + `
+    <div class="xscale">
+      <span></span>
+      <span class="xscale-inner"><span>\u22121,0</span><span>0</span><span>+1,0</span></span>
+      <span></span>
+    </div>`;
+}
+
+/* Korrelation einer einzelnen Option (für die Template-Karten) */
+function optExt(optName) {
+  const key = optName.replace('\u2014', '-');   // Em-Dash zurück
+  const hit = EXT.options[key] || EXT.options[optName];
+  if (!hit || !hit.length) return '';
+  const t = hit[0];
+  return `<p class="opt-ext">Stärkster Ländereinfluss:
+    ${t.f} <b>${cf(t.c)}</b></p>`;
+}
+
+
 /* ---------------- 02 Modell-Detail ---------------- */
 
 /* Nur die S 1000 R ist qualitativ ausgewertet (Deep-Dive im Notebook).
@@ -228,6 +279,8 @@ function renderModel(name) {
     <div class="ms"><b>${pf(m.maxcov)}</b><span>max. Abdeckung</span></div>
   `;
 
+  renderExternals(name);
+
   document.getElementById('model-detail').hidden = !isDeepDive;
   document.getElementById('model-generic').hidden = isDeepDive;
 
@@ -249,6 +302,7 @@ function renderModel(name) {
         <div class="card-opts">
           <ul>${t.opts.map(o => `<li>${o}</li>`).join('')}</ul>
           <p class="card-why">${t.why}</p>
+          ${t.opts.map(optExt).filter(Boolean)[0] || ''}
         </div>
         <div class="card-nums">
           ${bar('Bestellt (vollständig)', t.support, true)}
@@ -260,6 +314,7 @@ function renderModel(name) {
 
 sel.addEventListener('change', e => renderModel(e.target.value));
 renderModel('S 1000 R');
+
 
 /* ---------------- 03 Märkte ---------------- */
 
