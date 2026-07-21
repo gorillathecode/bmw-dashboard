@@ -12,6 +12,69 @@ const pf = (x, d = 0) =>
 /* Ist-Zustand ohne Templates: distinkte Konfigurationen im Datensatz */
 const IST_KONFIGURATIONEN = 14064;
 
+
+/* ---------------- 00 Grunddaten ---------------- */
+
+(function renderGrunddaten() {
+  const g = GRUND;
+
+  const kpis = [
+    [nf.format(g.zeilen), 'Datenzeilen'],
+    [nf.format(g.fahrzeuge), 'Fahrzeuge'],
+    [g.modelle, 'Modelle'],
+    [g.maerkte, 'Märkte'],
+    [g.haendler, 'Händler'],
+    [g.optionen, 'Optionscodes'],
+    [g.lacke, 'Lackierungen'],
+    [g.opt_median, 'Optionen je Fahrzeug (Median)']
+  ];
+  document.getElementById('grund-kpis').innerHTML = kpis.map(k =>
+    `<div class="gk"><b>${k[0]}</b><span>${k[1]}</span></div>`).join('');
+
+  /* Märkte */
+  const maxMkt = g.top_maerkte[0].n;
+  document.getElementById('grund-maerkte').innerHTML =
+    g.top_maerkte.slice(0, 10).map(m => `
+      <div class="gb-row">
+        <span class="gb-name">${m.id}</span>
+        <span class="gb-track"><span class="gb-fill" style="width:${m.n / maxMkt * 100}%"></span></span>
+        <span class="gb-val">${nf.format(m.n)}</span>
+      </div>`).join('');
+
+  /* Modelle */
+  const maxMod = g.top_modelle[0].n;
+  document.getElementById('grund-modelle').innerHTML =
+    g.top_modelle.map(m => `
+      <div class="gb-row">
+        <span class="gb-name">${m.name}</span>
+        <span class="gb-track"><span class="gb-fill" style="width:${m.n / maxMod * 100}%"></span></span>
+        <span class="gb-val">${nf.format(m.n)}</span>
+      </div>`).join('');
+
+  /* Histogramm Optionen je Fahrzeug */
+  const maxH = Math.max(...g.opt_hist);
+  const peak = g.opt_hist.indexOf(maxH);
+  document.getElementById('grund-hist').innerHTML =
+    g.opt_hist.map((v, i) => `
+      <div class="gh-col">
+        <span class="gh-n">${nf.format(v)}</span>
+        <div class="gh-bar${i === peak ? ' is-peak' : ''}" style="height:${v / maxH * 100}%"></div>
+        <span class="gh-lab">${g.opt_hist_labels[i]}</span>
+      </div>`).join('');
+
+  /* Datenqualität */
+  const qual = [
+    [nf.format(g.dupes), `<b>Duplikatzeilen.</b> Bei ${g.dupes_veh} Fahrzeugen ist die komplette Optionsliste doppelt erfasst — ein Export-Fehler.`],
+    [g.admin_pct + '\u2009%', `<b>Verwaltungscodes.</b> Fast ein Fünftel der Optionszeilen sind keine Kundenentscheidungen (Handbuch, EU-Content, Garantie), sondern automatisch vergeben.`],
+    [g.pt_missing_pct + '\u2009%', `<b>Processing Type fehlt.</b> Und zwar systematisch: ${nf.format(g.pt_de_missing)} von ${nf.format(g.pt_de_total)} DE-Fahrzeugen ohne Wert. Kundentyp-Segmentierung im größten Markt kaum möglich.`]
+  ];
+  document.getElementById('grund-qual').innerHTML =
+    qual.map(q => `<li><span class="gq-num">${q[0]}</span><span class="gq-txt">${q[1]}</span></li>`).join('');
+
+  document.getElementById('punch-num').innerHTML = g.shared_pct + '\u2009%';
+  document.getElementById('punch-cfg').textContent = nf.format(g.distinct_cfg);
+})();
+
 /* ---------------- Tabs ---------------- */
 
 document.querySelectorAll('.tab').forEach(tab => {

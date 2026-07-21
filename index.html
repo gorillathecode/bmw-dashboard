@@ -25,7 +25,8 @@
 </header>
 
 <nav class="tabs" role="tablist">
-  <button class="tab is-active" data-view="portfolio" role="tab">01 &nbsp;Portfolio</button>
+  <button class="tab is-active" data-view="grunddaten" role="tab">00 &nbsp;Grunddaten</button>
+  <button class="tab" data-view="portfolio" role="tab">01 &nbsp;Portfolio</button>
   <button class="tab" data-view="modell" role="tab">02 &nbsp;Modell-Detail</button>
   <button class="tab" data-view="markt" role="tab">03 &nbsp;Märkte</button>
   <button class="tab" data-view="prozess" role="tab">04 &nbsp;Planungsprozess</button>
@@ -33,8 +34,58 @@
 
 <main>
 
+<!-- ============ 00 GRUNDDATEN ============ -->
+<section class="view is-active" id="view-grunddaten">
+
+  <div class="lede">
+    <h2>Der Rohdatensatz auf einen Blick</h2>
+    <p>
+      Historische Bestellungen von BMW Motorrad im Long-Format: eine Zeile je
+      Fahrzeug &times; Option. Grundlage aller folgenden Analysen.
+    </p>
+  </div>
+
+  <div class="grund-kpis" id="grund-kpis"></div>
+
+  <div class="grund-split">
+    <div class="grund-block">
+      <h3>Bestellungen je Markt</h3>
+      <div class="grund-bars" id="grund-maerkte"></div>
+    </div>
+    <div class="grund-block">
+      <h3>Meistbestellte Modelle</h3>
+      <div class="grund-bars" id="grund-modelle"></div>
+    </div>
+  </div>
+
+  <div class="grund-split">
+    <div class="grund-block">
+      <h3>Optionen je Fahrzeug</h3>
+      <p class="grund-note">Median 21, Spannweite 1&ndash;75.</p>
+      <div class="grund-hist" id="grund-hist"></div>
+    </div>
+    <div class="grund-block grund-quality">
+      <h3>Datenqualität &mdash; drei Befunde</h3>
+      <ul id="grund-qual"></ul>
+    </div>
+  </div>
+
+  <div class="grund-punch">
+    <div class="punch-num" id="punch-num">77&thinsp;%</div>
+    <div class="punch-txt">
+      der Fahrzeuge teilen ihre Konfiguration mit mindestens einem anderen.
+      Aus 44.992 Bestellungen entstehen nur <b id="punch-cfg">14.063</b>
+      unterschiedliche Konfigurationen. <b>Die reale Vielfalt ist weit kleiner
+      als der Konfigurator suggeriert &mdash; und damit ist Variantenreduktion
+      grundsätzlich möglich.</b>
+    </div>
+  </div>
+
+</section>
+
+
 <!-- ============ 01 PORTFOLIO ============ -->
-<section class="view is-active" id="view-portfolio">
+<section class="view" id="view-portfolio">
 
   <div class="lede">
     <h2>Wie viele Templates soll BMW Motorrad anbieten?</h2>
@@ -249,6 +300,7 @@
   </p>
 </footer>
 
+<script src="grunddaten.js"></script>
 <script src="data.js"></script>
 <script src="externals.js"></script>
 <script src="app.js"></script>
