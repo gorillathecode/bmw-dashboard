@@ -161,6 +161,39 @@
   </div>
 
 
+
+  <div class="paket-panel" id="paket-panel" hidden>
+    <div class="pk-head">
+      <h3>Zwei Ebenen der Variantenvielfalt</h3>
+      <p>
+        Auf Paketebene zählen nur die bestehenden BMW-Pakete. Auf
+        Konfigurationsebene zählt die vollständige Ausstattung jedes Fahrzeugs.
+        Die Lücke dazwischen ist die Komplexität, die BMW im Alltag spürt.
+      </p>
+    </div>
+
+    <div class="pk-compare">
+      <div class="pk-side">
+        <span class="pk-tag">Paketebene</span>
+        <b id="pk-a">8</b>
+        <span class="pk-lab">Paketkombinationen für&nbsp;80&thinsp;%</span>
+      </div>
+      <div class="pk-gap" id="pk-gap"></div>
+      <div class="pk-side pk-side-b">
+        <span class="pk-tag">Konfigurationsebene</span>
+        <b id="pk-b">52</b>
+        <span class="pk-lab">Templates für&nbsp;80&thinsp;%</span>
+      </div>
+    </div>
+
+    <p class="pk-verdict" id="pk-verdict"></p>
+
+    <div class="pk-table">
+      <h4>Häufigste Paketkombinationen</h4>
+      <div id="pk-rows"></div>
+    </div>
+  </div>
+
   <div class="ext-panel" id="ext-panel">
     <div class="ext-head">
       <h3>Welche Ländermerkmale erklären die Nachfrage?</h3>
@@ -303,6 +336,7 @@
 <script src="grunddaten.js"></script>
 <script src="data.js"></script>
 <script src="externals.js"></script>
+<script src="leo.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

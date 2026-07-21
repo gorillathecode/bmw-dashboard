@@ -216,6 +216,49 @@ const slider = document.getElementById('slider');
 slider.addEventListener('input', e => update(+e.target.value));
 update(+slider.value);
 
+
+/* ---------------- Paketebene (Analyse Leo) ---------------- */
+
+function renderPaket(name) {
+  const p = PAKET[name];
+  const panel = document.getElementById('paket-panel');
+  if (!p) { panel.hidden = true; return; }
+  panel.hidden = false;
+
+  const faktor = p.konfig_80 / p.kombis_80;
+
+  document.getElementById('pk-a').textContent = p.kombis_80;
+  document.getElementById('pk-b').textContent = p.konfig_80;
+  document.getElementById('pk-gap').textContent =
+    faktor >= 2 ? '\u00D7 ' + faktor.toFixed(1).replace('.', ',') : 'nahezu deckungsgleich';
+
+  document.querySelector('.pk-side-b').classList.toggle('is-alarm', faktor >= 2);
+
+  const v = document.getElementById('pk-verdict');
+  if (faktor >= 2) {
+    v.innerHTML = `Die Paketstruktur von BMW sitzt: <b>${p.kombis_80}</b> Kombinationen
+      decken bereits gut 80&thinsp;% ab. Doch dieselben Kombinationen werden in
+      <b>${nf.format(p.distinkte_konfig)}</b> unterschiedlichen Ausstattungen bestellt.
+      Auf Konfigurationsebene braucht es deshalb <b>${p.konfig_80}</b> Templates —
+      mit ${p.kombis_80} wären erst <b>${String(p.cov_bei_8).replace('.', ',')}&thinsp;%</b> gedeckt.
+      <b>Die Komplexität sitzt nicht in den Paketen, sondern unter ihnen.</b>`;
+  } else {
+    v.innerHTML = `Paket- und Konfigurationsebene liegen hier fast gleichauf:
+      <b>${p.kombis_80}</b> Paketkombinationen gegenüber <b>${p.konfig_80}</b> Templates.
+      Die Pakete bilden die tatsächliche Bestellstruktur bereits gut ab —
+      unterhalb davon gibt es kaum verdeckte Vielfalt.
+      <b>Hier ist das Template-Potenzial weitgehend ausgeschöpft.</b>`;
+  }
+
+  const max = p.kombis[0].pct;
+  document.getElementById('pk-rows').innerHTML = p.kombis.map((k, i) => `
+    <div class="pk-row${i === p.kombis.length - 1 ? ' is-last' : ''}">
+      <span>${k.name}</span>
+      <span class="pk-row-bar"><i style="width:${k.pct / max * 100}%"></i></span>
+      <span class="pk-row-cum">${String(k.cum).replace('.', ',')}\u2009%</span>
+    </div>`).join('');
+}
+
 /* ---------------- Externe Faktoren je Modell ---------------- */
 
 const cf = c =>
@@ -342,6 +385,7 @@ function renderModel(name) {
     <div class="ms"><b>${pf(m.maxcov)}</b><span>max. Abdeckung</span></div>
   `;
 
+  renderPaket(name);
   renderExternals(name);
 
   document.getElementById('model-detail').hidden = !isDeepDive;
