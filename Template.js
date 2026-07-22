@@ -1,4 +1,4 @@
-// Paketebene: Kombinationen bestehender BMW-Pakete (Analyse Leo)
+// Paketebene: Kombinationen bestehender BMW-Pakete (Analyse)
 // Quelle: TemplatesR1300GS.Rmd / TemplatesS1000RR.Rmd
 const PAKET = {
  "R 1300 GS": {
